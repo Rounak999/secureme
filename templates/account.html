@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<style nonce="a9xkP3tLmC7eZ2qR">
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+        margin: 40px auto;
+        max-width: 400px;
+        background: #f0f0f0;
+        border-radius: 8px;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    a {
+        display: block;
+        margin-top: 15px;
+        text-align: center;
+        color: #007bff;
+    }
+</style>
+
+<form method="POST">
+    <input type="text" name="firstname" placeholder="First Name" value="{{ user['firstname'] or '' }}">
+    <input type="text" name="lastname" placeholder="Last Name" value="{{ user['lastname'] or '' }}">
+    <input type="email" name="email" placeholder="Email Address" value="{{ user['email'] or '' }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="submit" value="Update Account">
+</form>
+<p><a href="/login">Log in with a different account</a></p>
+{% endblock %}
