@@ -8,10 +8,11 @@ This lab demonstrates how an attacker can exploit **Cross-Site Request Forgery (
 
 Exploit a vulnerability where:
 
+- Login as **admin@admin.com** to get the flag
 - A **CSRF token** is generated per account and refreshed on every `/account` page load.
 - The application validates CSRF tokens on all update requests.
 
-Your goal is to **perform a email change without the user’s consent** while they're logged in.
+Your goal is to **perform a email change without the user’s consent** while they're logged in. A Bot logs in as admin to view all your posts. 
 
 ---
 
