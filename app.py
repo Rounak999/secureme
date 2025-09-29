@@ -12,6 +12,7 @@ app.config.update(
     SESSION_COOKIE_SECURE=True
 )
 
+FLAG = "CTF{**********}"
 DATABASE = 'users.db'
 
 
@@ -35,6 +36,7 @@ def close_connection(exception):
 def init_db():
     with app.app_context():
         db = get_db()
+        # Create tables if they do not exist
         db.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,6 +58,21 @@ def init_db():
             );
         ''')
         db.commit()
+
+        admin_email = "admin@admin.com"
+        admin_pass = "**********" 
+        hashed = generate_password_hash(admin_pass)
+
+        existing = db.execute("SELECT * FROM users WHERE email = ?", (admin_email,)).fetchone()
+        if not existing:
+            db.execute(
+                "INSERT INTO users (email, password, firstname, lastname) VALUES (?, ?, ?, ?)",
+                (admin_email, hashed, "Admin", "User")
+            )
+            db.commit()
+            print(f"[INIT] Admin user created with email={admin_email} and password={admin_pass}")
+        else:
+            print("[INIT] Admin user already exists.")
 
 
 # ---------------------- Security Headers ----------------------
@@ -205,7 +222,14 @@ def posts():
         ORDER BY posts.created_at DESC
     ''').fetchall()
 
-    return render_template('posts.html', posts=all_posts, user=user)
+    try:
+        user_email = (user['email'] or "").lower()
+    except Exception:
+        user_email = ""
+
+    flag_to_show = FLAG if user_email == "admin@admin.com" else None
+
+    return render_template('posts.html', posts=all_posts, user=user, flag=flag_to_show)
 
 
 # ---------------------- Main ----------------------

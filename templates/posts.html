@@ -76,7 +76,12 @@
             text-decoration: underline;
         }
     </style>
-
+{% if flag %}
+  <div style="background:#071019;color:#7fff7f;padding:18px;border-radius:8px;margin-bottom:16px;font-family:monospace;">
+    <h2 style="margin:0 0 8px 0;color:#b6ffb6;">🎉 Admin Flag</h2>
+    <code style="font-size:18px;">{{ flag }}</code>
+  </div>
+{% endif %}
     <div class="container">
         <h2>Post Something</h2>
         <form method="POST" action="/posts" class="post-form">
